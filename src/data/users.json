@@ -1,0 +1,159 @@
+{
+  "user": [
+    {
+      "id": 1,
+      "username": "user1",
+      "firstName": "John",
+      "middleName": "",
+      "lastName": "Doe",
+      "password": "password1",
+      "email": "john.doe@example.com",
+      "birthdate": "1990-01-01",
+      "interests": [
+        "Reading",
+        "Music",
+        "Travel",
+        "Hiking"
+      ],
+      "mobilenumber": "1234567890",
+      "role": "user",
+      "status": true,
+      "dateCreated": "2024-03-26",
+      "dateUpdated": "2024-03-26"
+    },
+    {
+      "id": 2,
+      "username": "user2",
+      "firstName": "Jane",
+      "middleName": "",
+      "lastName": "Smith",
+      "password": "password2",
+      "email": "jane.smith@example.com",
+      "birthdate": "1995-05-15",
+      "interests": [
+        "Sports",
+        "Cooking",
+        "Movies"
+      ],
+      "mobilenumber": "2345678901",
+      "role": "user",
+      "status": true,
+      "dateCreated": "2024-03-26",
+      "dateUpdated": "2024-03-26"
+    },
+    {
+      "id": 3,
+      "username": "user3",
+      "firstName": "Alice",
+      "middleName": "",
+      "lastName": "Johnson",
+      "password": "password3",
+      "email": "alice.johnson@example.com",
+      "birthdate": "1988-11-20",
+      "interests": [
+        "Painting",
+        "Photography",
+        "Hiking"
+      ],
+      "mobilenumber": "3456789012",
+      "role": "user",
+      "status": true,
+      "dateCreated": "2024-03-26",
+      "dateUpdated": "2024-03-26"
+    },
+    {
+      "id": 4,
+      "username": "user4",
+      "firstName": "Bob",
+      "middleName": "",
+      "lastName": "Brown",
+      "password": "password4",
+      "email": "bob.brown@example.com",
+      "birthdate": "1980-07-10",
+      "interests": [
+        "Gardening",
+        "Technology",
+        "Gaming"
+      ],
+      "mobilenumber": "4567890123",
+      "role": "user",
+      "status": true,
+      "dateCreated": "2024-03-26",
+      "dateUpdated": "2024-03-26"
+    },
+    {
+      "id": 5,
+      "username": "user5",
+      "firstName": "Eve",
+      "middleName": "",
+      "lastName": "Taylor",
+      "password": "password5",
+      "email": "eve.taylor@example.com",
+      "birthdate": "1992-03-25",
+      "interests": [
+        "Dancing",
+        "Fashion",
+        "Writing"
+      ],
+      "mobilenumber": "5678901234",
+      "role": "admin",
+      "status": true,
+      "dateCreated": "2024-03-26",
+      "dateUpdated": "2024-03-26"
+    }
+  ],
+  "role": [
+    {
+      "code": "admin",
+      "name": "Admin"
+    },
+    {
+      "code": "manager",
+      "name": "Manager"
+    },
+    {
+      "code": "user",
+      "name": "User"
+    }
+  ],
+  "menu": [
+    {
+      "code": "associate",
+      "Name": "Associate"
+    },
+    {
+      "code": "customer",
+      "Name": "Customer"
+    },
+    {
+      "code": "user",
+      "Name": "User"
+    }
+  ],
+  "roleaccess": [
+    {
+      "role": "user",
+      "menu": "customer"
+    },
+    {
+      "role": "admin",
+      "menu": "customer"
+    },
+    {
+      "role": "admin",
+      "menu": "user"
+    },
+    {
+      "role": "manager",
+      "menu": "associate"
+    },
+    {
+      "role": "manager",
+      "menu": "customer"
+    },
+    {
+      "role": "user",
+      "menu": "associate"
+    }
+  ]
+}
