@@ -3,20 +3,15 @@
     {
       "id": "1",
       "username": "user1",
-      "firstName": "John",
+      "firstName": "Jane",
       "middleName": "",
       "lastName": "Doe",
       "password": "password1",
-      "email": "john.doe@example.com",
+      "email": "jane.doe@example.com",
       "birthdate": "1990-01-01",
       "interests": [
-        "Reading",
-        "Music",
-        "Travel",
-        "Hiking",
-        "Diving",
         "Camping",
-        "Biking"
+        "Hiking"
       ],
       "mobilenumber": "1234567890",
       "role": "user",
@@ -27,16 +22,15 @@
     {
       "id": "2",
       "username": "user2",
-      "firstName": "Jane",
+      "firstName": "John",
       "middleName": "",
       "lastName": "Smith",
       "password": "password2",
-      "email": "jane.smith@example.com",
-      "birthdate": "1995-05-15",
+      "email": "john.smith@example.com",
+      "birthdate": "1995-05-09",
       "interests": [
-        "Sports",
-        "Cooking",
-        "Movies"
+        "Testing",
+        "Camping"
       ],
       "mobilenumber": "2345678901",
       "role": "user",

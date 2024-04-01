@@ -1,0 +1,12 @@
+.spacer {
+    flex: 1;
+  }
+  
+  // Add styles for the profile button to align items horizontally
+  .profile-button {
+    display: flex;
+    align-items: center;
+  }
+  .profile-name {
+    margin-right: 5px; // Adjust as needed
+  }

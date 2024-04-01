@@ -1,31 +1,53 @@
-<div>
-  <h2>User Profile</h2>
-  <div *ngIf="userProfile">
+<div class="user-profile-container">
+  
+  <div *ngIf="!editMode && userProfile">
+    <h2>User Profile</h2>
     <mat-card>
       <mat-card-content>
-        <p><strong>Username:</strong> {{ userProfile.username }}</p>
+        <div class="profile-picture-container">
+          <img src="assets/OIP.jfif" alt="Profile Picture">
+        </div>
         <p><strong>First Name:</strong> {{ userProfile.firstName }}</p>
         <p><strong>Middle Name:</strong> {{ userProfile.middleName || 'N/A' }}</p>
         <p><strong>Last Name:</strong> {{ userProfile.lastName }}</p>
         <p><strong>Email:</strong> {{ userProfile.email }}</p>
         <p><strong>Birthdate:</strong> {{ userProfile.birthdate }}</p>
         <p><strong>Interests:</strong></p>
-        <ul>
+        <ul class="interests-list">
           <li *ngFor="let interest of userProfile.interests">{{ interest }}</li>
         </ul>
       </mat-card-content>
     </mat-card>
   </div>
-  <div *ngIf="editMode">
-    <h2>Edit Interests</h2>
+  <div *ngIf="editMode || !userProfile" class="edit-interests-container">
+    <h2>Edit Profile</h2>
+    <mat-form-field>
+      <input matInput type="text" placeholder="First Name" [(ngModel)]="userProfile.firstName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Middle Name" [(ngModel)]="userProfile.middleName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="text" placeholder="Last Name" [(ngModel)]="userProfile.lastName">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput type="email" placeholder="Email" [(ngModel)]="userProfile.email">
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput [matDatepicker]="picker" placeholder="Birthdate" [(ngModel)]="userProfile.birthdate">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
     <mat-form-field>
       <input matInput type="text" placeholder="New Interest" [(ngModel)]="newInterest">
+      <button mat-icon-button matSuffix (click)="addInterest()">
+        <mat-icon>add</mat-icon>
+      </button>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="addInterest()">Add</button>
     <ul>
       <li *ngFor="let interest of editedInterests">{{ interest }}</li>
     </ul>
     <button mat-raised-button color="primary" (click)="saveProfile()">Save</button>
   </div>
-  <button mat-raised-button color="primary" (click)="editProfile()" *ngIf="!editMode">Edit</button>
+  <button mat-raised-button color="primary" class="edit-button" (click)="toggleEditMode()" *ngIf="!editMode">Edit</button>
 </div>

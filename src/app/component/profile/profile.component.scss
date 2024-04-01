@@ -1,0 +1,36 @@
+.user-profile-container {
+    .profile-grid-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 20px;
+    }
+  
+    .profile-picture-container,
+    .username-email-container,
+    .name-birthdate-container,
+    .interests-container {
+      padding: 20px;
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  
+    .profile-picture-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .profile-picture-container img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+  
+    .interests-list {
+      padding-left: 20px;
+    }
+  }
+  

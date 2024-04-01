@@ -1,6 +1,9 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule, isDevMode } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInput } from '@angular/material/input';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { EffectsModule } from '@ngrx/effects';
@@ -15,6 +18,7 @@ import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './component/forgot-password/forgot-password.component';
 import { LoginComponent } from './component/login/login.component';
 import { ProfileComponent } from './component/profile/profile.component';
+import { HeaderComponent } from './core/header/header.component';
 import { MaterialModule } from './material.module';
 import { AppEffects } from './store/common/App.Effects';
 import { UserEffect } from './store/user/user.effects';
@@ -27,7 +31,8 @@ import { UserReducer } from './store/user/user.reducer';
     DashboardComponent,
     ForgotPasswordComponent,
     AcknowledgementComponent,
-    ProfileComponent
+    ProfileComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +47,9 @@ import { UserReducer } from './store/user/user.reducer';
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() , connectInZone: true}),
     NgxMaskDirective,NgxMaskPipe, StoreModule.forRoot({}, {}),
+    MatInput,
+    MatDatepickerModule,
+    MatNativeDateModule,
 
   ],
   providers: [provideNgxMask()],
