@@ -4,88 +4,43 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 import { UserService } from "../../service/user.service";
 import { showalert } from "../common/App.Action";
-import { Userinfo } from "../model/user";
-import { beginLogin, beginRegister, duplicateUser, duplicateUserSuccess, fetchmenu, fetchmenusuccess, getroles, getrolesuccess, getuserbycode, getuserbycodesuccess, getusers, getuserssuccess, updateuserrole } from "./user.actions";
+import { UserInfo } from "../model/user";
+import { beginLogin, getusers, getuserssuccess } from "./user.actions";
+
+
 
 @Injectable()
 export class UserEffect {
     constructor(private action$: Actions, private service: UserService, private route: Router) {
 
     }
-
-    _userregister = createEffect(() =>
-        this.action$.pipe(
-            ofType(beginRegister),
-            exhaustMap((action) => {
-                return this.service.UserRegisteration(action.userdata).pipe(
-                    map(() => {
-                        this.route.navigate(['login'])
-                        return showalert({ message: 'Registered successfully.', resulttype: 'pass' })
-                    }),
-                    catchError((_error) => of(showalert({ message: 'Registerion Failed due to :.' + _error.message, resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
-    _duplicateuser = createEffect(() =>
-        this.action$.pipe(
-            ofType(duplicateUser),
-            switchMap((action) => {
-                return this.service.Duplicateusername(action.username).pipe(
-                    switchMap((data) => {
-                        if (data.length > 0) {
-                            return of(duplicateUserSuccess({ isduplicate: true }),
-                                showalert({ message: 'Username already exist.', resulttype: 'fail' }))
-                        } else {
-                            return of(duplicateUserSuccess({ isduplicate: false }))
-                        }
-
-                    }),
-                    catchError((_error) => of(showalert({ message: 'Registerion Failed due to :.' + _error.message, resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
     _userlogin = createEffect(() =>
         this.action$.pipe(
             ofType(beginLogin),
             switchMap((action) => {
                 return this.service.UserLogin(action.usercred).pipe(
-                    switchMap((data: Userinfo[]) => {
+                    switchMap((data: UserInfo[]) => {
                         if (data.length > 0) {
                             const _userdata = data[0];
-                            console.log(data);
+                            console.log('this:',data);
                             if (_userdata.status === true) {
-                                this.service.SetUserToLoaclStorage(_userdata);
+                                this.service.SetUserToLocalStorage(_userdata);
+                                console.log(localStorage.getItem('userdata'))
+                                console.log('logged')
                                 this.route.navigate([''])
-                                return of(fetchmenu({ userrole: _userdata.role }),
-                                    showalert({ message: 'Login success.', resulttype: 'pass' }))
+                                return of(showalert({ message: 'Login success.', resulttype: 'pass' }))
                             } else {
+                                console.log('not log')
                                 return of(showalert({ message: 'InActive User.', resulttype: 'fail' }))
                             }
                         } else {
+                            console.log('failed')
                             return of(showalert({ message: 'Login Failed: Invalid credentials.', resulttype: 'fail' }))
                         }
 
 
                     }),
                     catchError((_error) => of(showalert({ message: 'Login Failed due to :.' + _error.message, resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
-    _loadmenubyrole = createEffect(() =>
-        this.action$.pipe(
-            ofType(fetchmenu),
-            exhaustMap((action) => {
-                return this.service.GetMenubyRole(action.userrole).pipe(
-                    map((data) => {
-                        return fetchmenusuccess({ menulist: data })
-                    }),
-                    catchError((_error) => of(showalert({ message: 'Failed to fetch mmenu list', resulttype: 'fail' })))
                 )
             })
         )
@@ -104,53 +59,4 @@ export class UserEffect {
             })
         )
     )
-
-    _getallRoles = createEffect(() =>
-        this.action$.pipe(
-            ofType(getroles),
-            exhaustMap((action) => {
-                return this.service.GetAllRoles().pipe(
-                    map((data) => {
-                        return getrolesuccess({ rolelist: data })
-                    }),
-                    catchError((_error) => of(showalert({ message: 'Failed to fetch role list', resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
-
-    _getuserbycode = createEffect(() =>
-        this.action$.pipe(
-            ofType(getuserbycode),
-            switchMap((action) => {
-                return this.service.Duplicateusername(action.username).pipe(
-                    switchMap((data) => {
-                        if (data.length > 0) {
-                            return of(getuserbycodesuccess({ userinfo: data[0] }))
-                        } else {
-                            return of(duplicateUserSuccess({ isduplicate: false }))
-                        }
-
-                    }),
-                    catchError((_error) => of(showalert({ message: 'get userbycode Failed due to :.' + _error.message, resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
-    _assignrole = createEffect(() =>
-        this.action$.pipe(
-            ofType(updateuserrole),
-            switchMap((action) => {
-                return this.service.UpdateUser(action.userid,action.userrole).pipe(
-                    switchMap(() => {
-                        return of(getusers(),showalert({ message: 'Updated successfully',resulttype:'pass' }))
-                    }),
-                    catchError((_error) => of(showalert({ message: 'get userbycode Failed due to :.' + _error.message, resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
 }

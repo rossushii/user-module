@@ -4,52 +4,54 @@ export interface Users {
     id: number;
     username: string;
     firstName: string;
-    middleName: string | null;
+    middleName: string;
     lastName: string;
     password: string;
     email: string;
     birthdate: string;
     interests: string[];
-    status: boolean;
+    mobilenumber: string;
     role: string;
+    status: boolean;
+    dateCreated: string;
+    dateUpdated: string;
   }
-
-export interface Usercred{
-    username:string,
-    password:string
-}
-
-export interface Userinfo{
+  export interface UserCred {
+    username: string;
+    password: string;
+  }
+  export interface UserInfo {
     id: number;
     username: string;
     firstName: string;
-    middleName: string | null;
+    middleName: string;
     lastName: string;
     email: string;
     birthdate: string;
     interests: string[];
-    status: boolean;
+    mobilenumber: string;
     role: string;
+    status: boolean;
+    dateCreated: string;
+    dateUpdated: string;
+  }
+export interface UserModel extends EntityState<Users>{
+    userinfo:UserInfo
+ }
+
+ export interface ForgotPasswordFormData {
+    username: string;
+    email: string;
+    mobileNumber: string;
   }
 
-export interface Roles{
-    code:string,
-    name:string
-}
-
-export interface Menus{
-    code:string,
-    name:string
-}
-
-export interface Roleaccess{
-    role:string,
-    menu:string
-}
-
-export interface UserModel extends EntityState<Users>{
-   isDuplicate:boolean,
-   menulist:Roleaccess[],
-   roles:Roles[],
-   userinfo:Userinfo
-}
+  export interface UserProfile {
+    id: number;
+    username: string;
+    firstName: string;
+    middleName?: string;
+    lastName: string;
+    email: string;
+    birthdate: string;
+    interests: string[];
+  }

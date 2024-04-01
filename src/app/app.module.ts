@@ -14,7 +14,9 @@ import { AcknowledgementComponent } from './component/acknowledgement/acknowledg
 import { DashboardComponent } from './component/dashboard/dashboard.component';
 import { ForgotPasswordComponent } from './component/forgot-password/forgot-password.component';
 import { LoginComponent } from './component/login/login.component';
+import { ProfileComponent } from './component/profile/profile.component';
 import { MaterialModule } from './material.module';
+import { AppEffects } from './store/common/App.Effects';
 import { UserEffect } from './store/user/user.effects';
 import { UserReducer } from './store/user/user.reducer';
 
@@ -24,7 +26,8 @@ import { UserReducer } from './store/user/user.reducer';
     LoginComponent,
     DashboardComponent,
     ForgotPasswordComponent,
-    AcknowledgementComponent
+    AcknowledgementComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -35,10 +38,11 @@ import { UserReducer } from './store/user/user.reducer';
     FormsModule,
     BrowserAnimationsModule,
     StoreModule.forRoot({user:UserReducer}),
-    EffectsModule.forRoot([UserEffect]),
+    EffectsModule.forRoot([UserEffect, AppEffects]),
     StoreRouterConnectingModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() , connectInZone: true}),
     NgxMaskDirective,NgxMaskPipe, StoreModule.forRoot({}, {}),
+
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent]

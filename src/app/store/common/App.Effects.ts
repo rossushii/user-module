@@ -14,7 +14,7 @@ export class AppEffects {
         this.$action.pipe(
             ofType(showalert),
             exhaustMap((action) => {
-                console.log('this is a message')
+                console.log('alert works')
                 return this.Shownackbaralert(action.message, action.resulttype).afterDismissed().pipe(
                     map(() => {
                         return emptyaction();

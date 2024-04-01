@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
-import { Roleaccess, Roles, Usercred, Userinfo, Users } from '../store/model/user';
+import { Observable, catchError } from 'rxjs';
+import { ForgotPasswordFormData, UserCred, UserInfo, Users } from '../store/model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -14,58 +14,57 @@ export class UserService {
 
   APIBaseUrl = 'http://localhost:3000/user'
 
-  UserRegisteration(userdata: Users) {
-    return this.http.post(this.APIBaseUrl, userdata);
+  UserLogin(userdata: UserCred): Observable<UserInfo[]> {
+    return this.http.get<UserInfo[]>(this.APIBaseUrl + '?username=' + userdata.username + '&password=' + userdata.password);
   }
 
-  UserLogin(userdata: Usercred): Observable<Userinfo[]> {
-    return this.http.get<Userinfo[]>(this.APIBaseUrl + '?username=' + userdata.username + '&password=' + userdata.password);
-  }
-
-  Duplicateusername(username: string): Observable<Userinfo[]> {
-    return this.http.get<Userinfo[]>(this.APIBaseUrl + '?username=' + username);
-  }
-
-  GetMenubyRole(userrole: string): Observable<Roleaccess[]> {
-    return this.http.get<Roleaccess[]>('http://localhost:3000/roleaccess?role=' + userrole);
-  }
-  HaveMenuAccess(userrole: string, menuname: string): Observable<Roleaccess[]> {
-    return this.http.get<Roleaccess[]>('http://localhost:3000/roleaccess?role=' + userrole + '&menu=' + menuname);
+  forgotPassword(formData: ForgotPasswordFormData): Observable<UserInfo[]> {
+    const { username, email, mobileNumber } = formData;
+    const url = `${this.APIBaseUrl}?username=${username}&email=${email}&mobilenumber=${mobileNumber}`;
+    return this.http.get<UserInfo[]>(url).pipe(
+      catchError(error => {
+        console.error('Failed to retrieve password:', error);
+        return []; // Return empty array if there's an error
+      })
+    );
   }
 
   GetAllUsers(): Observable<Users[]> {
     return this.http.get<Users[]>(this.APIBaseUrl);
   }
 
-  GetAllRoles(): Observable<Roles[]> {
-    return this.http.get<Roles[]>('http://localhost:3000/role');
-  }
-
-  SetUserToLoaclStorage(userdata: Userinfo) {
+  SetUserToLocalStorage(userdata: UserInfo) {
     localStorage.setItem('userdata', JSON.stringify(userdata))
   }
 
-  UpdateUser(userid: number, role: string) {
-    return this.http.get<Users>(this.APIBaseUrl+'/'+userid).pipe(
-      switchMap((data)=>{
-            data.role=role;
-           return this.http.put(this.APIBaseUrl+'/'+userid,data)
+  updateUserProfile(updatedProfile: Partial<UserInfo>): Observable<UserInfo> {
+    if (updatedProfile.id === undefined) {
+      throw new Error('User ID is required for updating profile');
+    }
+    const url = `${this.APIBaseUrl}/${updatedProfile.id}`; 
+    return this.http.put<UserInfo>(url, updatedProfile as UserInfo).pipe(
+      catchError(error => {
+        console.error('Failed to update user profile:', error);
+        throw error; 
       })
-    )
+    );
   }
 
   Getuserdatafromstorage() {
-    let _obj: Userinfo = {
+    let _obj: UserInfo = {
       id: 0,
       username: '',
       firstName: '',
-      middleName:'',
+      middleName: '',
       lastName: '',
       email: '',
       birthdate: '',
-      interests: [], 
+      interests: [],
       status: false,
-      role: ''
+      role: '',
+      mobilenumber: '',
+      dateCreated: '',
+      dateUpdated: ''
     }
     if (localStorage.getItem('userdata') != null) {
       let jsonstring = localStorage.getItem('userdata') as string;

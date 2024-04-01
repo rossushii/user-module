@@ -22,9 +22,12 @@
             <div class="div-50">
                 <a (clickevent)="resetlogin()" color="accent" mat-raised-button>Cancel</a>
            </div>
+           <div class="div-50">
+            <a (click)="navigateToForgotPassword()" color="primary" mat-button>Forgot Password?</a>
+           </div>
         </mat-card-actions>
         <div class="div-50">
-            <a routerLink="/register" color="primary" mat-button>New User?</a>
+            <a routerLink="/register" color="primary" mat-button>Log in as Admin?</a>
        </div>
 
     </mat-card>

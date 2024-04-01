@@ -1,7 +1,7 @@
 {
   "user": [
     {
-      "id": 1,
+      "id": "1",
       "username": "user1",
       "firstName": "John",
       "middleName": "",
@@ -13,7 +13,10 @@
         "Reading",
         "Music",
         "Travel",
-        "Hiking"
+        "Hiking",
+        "Diving",
+        "Camping",
+        "Biking"
       ],
       "mobilenumber": "1234567890",
       "role": "user",
@@ -22,7 +25,7 @@
       "dateUpdated": "2024-03-26"
     },
     {
-      "id": 2,
+      "id": "2",
       "username": "user2",
       "firstName": "Jane",
       "middleName": "",
@@ -42,7 +45,7 @@
       "dateUpdated": "2024-03-26"
     },
     {
-      "id": 3,
+      "id": "3",
       "username": "user3",
       "firstName": "Alice",
       "middleName": "",
@@ -62,7 +65,7 @@
       "dateUpdated": "2024-03-26"
     },
     {
-      "id": 4,
+      "id": "4",
       "username": "user4",
       "firstName": "Bob",
       "middleName": "",
@@ -82,7 +85,7 @@
       "dateUpdated": "2024-03-26"
     },
     {
-      "id": 5,
+      "id": "5",
       "username": "user5",
       "firstName": "Eve",
       "middleName": "",
@@ -100,60 +103,6 @@
       "status": true,
       "dateCreated": "2024-03-26",
       "dateUpdated": "2024-03-26"
-    }
-  ],
-  "role": [
-    {
-      "code": "admin",
-      "name": "Admin"
-    },
-    {
-      "code": "manager",
-      "name": "Manager"
-    },
-    {
-      "code": "user",
-      "name": "User"
-    }
-  ],
-  "menu": [
-    {
-      "code": "associate",
-      "Name": "Associate"
-    },
-    {
-      "code": "customer",
-      "Name": "Customer"
-    },
-    {
-      "code": "user",
-      "Name": "User"
-    }
-  ],
-  "roleaccess": [
-    {
-      "role": "user",
-      "menu": "customer"
-    },
-    {
-      "role": "admin",
-      "menu": "customer"
-    },
-    {
-      "role": "admin",
-      "menu": "user"
-    },
-    {
-      "role": "manager",
-      "menu": "associate"
-    },
-    {
-      "role": "manager",
-      "menu": "customer"
-    },
-    {
-      "role": "user",
-      "menu": "associate"
     }
   ]
 }

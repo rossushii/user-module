@@ -4,8 +4,9 @@ import { Actions, createEffect, ofType } from "@ngrx/effects";
 import { catchError, exhaustMap, map, of, switchMap } from 'rxjs';
 import { UserService } from "../../service/user.service";
 import { showalert } from "../common/App.Action";
-import { Userinfo } from "../model/user";
-import { beginLogin, duplicateUserSuccess, fetchmenu, getroles, getrolesuccess, getuserbycode, getuserbycodesuccess, getusers, getuserssuccess, updateuserrole } from "./user.actions";
+import { UserInfo } from "../model/user";
+import { beginLogin, forgotPassword, forgotPasswordFailure, forgotPasswordSuccess, getusers, getuserssuccess } from "./user.actions";
+
 
 
 @Injectable()
@@ -18,17 +19,16 @@ export class UserEffect {
             ofType(beginLogin),
             switchMap((action) => {
                 return this.service.UserLogin(action.usercred).pipe(
-                    switchMap((data: Userinfo[]) => {
+                    switchMap((data: UserInfo[]) => {
                         if (data.length > 0) {
                             const _userdata = data[0];
                             console.log('this:',data);
                             if (_userdata.status === true) {
-                                this.service.SetUserToLoaclStorage(_userdata);
+                                this.service.SetUserToLocalStorage(_userdata);
                                 console.log(localStorage.getItem('userdata'))
                                 console.log('logged')
                                 this.route.navigate([''])
-                                return of(fetchmenu({ userrole: _userdata.role }),
-                                    showalert({ message: 'Login success.', resulttype: 'pass' }))
+                                return of(showalert({ message: 'Login success.', resulttype: 'pass' }))
                             } else {
                                 console.log('not log')
                                 return of(showalert({ message: 'InActive User.', resulttype: 'fail' }))
@@ -60,52 +60,28 @@ export class UserEffect {
         )
     )
 
-    _getallRoles = createEffect(() =>
+    _forgotPassword = createEffect(() =>
         this.action$.pipe(
-            ofType(getroles),
-            exhaustMap((action) => {
-                return this.service.GetAllRoles().pipe(
-                    map((data) => {
-                        return getrolesuccess({ rolelist: data })
-                    }),
-                    catchError((_error) => of(showalert({ message: 'Failed to fetch role list', resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
-
-    _getuserbycode = createEffect(() =>
-        this.action$.pipe(
-            ofType(getuserbycode),
-            switchMap((action) => {
-                return this.service.Duplicateusername(action.username).pipe(
-                    switchMap((data) => {
-                        if (data.length > 0) {
-                            return of(getuserbycodesuccess({ userinfo: data[0] }))
+            ofType(forgotPassword),
+            exhaustMap(action =>
+                this.service.forgotPassword(action.formData).pipe(
+                    switchMap((data: any) => {
+                        if (data && data.length > 0) {
+                            console.log(data)
+                            const firstItem = data[0]; // Get the first item from the array
+                            const password = firstItem.password; // Access the password field
+                            localStorage.setItem('password', password);
+                            console.log(localStorage.getItem('password'))
+                            this.route.navigate(['forgotpassword/acknowledge']);
+                            return of(forgotPasswordSuccess());
                         } else {
-                            return of(duplicateUserSuccess({ isduplicate: false }))
+                            return of(showalert({ message: 'Invalid user credentials.', resulttype: 'fail' }))
                         }
-
                     }),
-                    catchError((_error) => of(showalert({ message: 'get userbycode Failed due to :.' + _error.message, resulttype: 'fail' })))
+                    catchError(error => of(forgotPasswordFailure({ error: 'Failed to process forgot password request' })))
                 )
-            })
+            )
         )
-    )
-
-    _assignrole = createEffect(() =>
-        this.action$.pipe(
-            ofType(updateuserrole),
-            switchMap((action) => {
-                return this.service.UpdateUser(action.userid,action.userrole).pipe(
-                    switchMap(() => {
-                        return of(getusers(),showalert({ message: 'Updated successfully',resulttype:'pass' }))
-                    }),
-                    catchError((_error) => of(showalert({ message: 'get userbycode Failed due to :.' + _error.message, resulttype: 'fail' })))
-                )
-            })
-        )
-    )
-
+    );
+    
 }

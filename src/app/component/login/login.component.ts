@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Usercred } from '../../store/model/user';
+import { UserCred } from '../../store/model/user';
 import { beginLogin } from '../../store/user/user.actions';
 
 
@@ -12,11 +13,12 @@ import { beginLogin } from '../../store/user/user.actions';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private builder: FormBuilder, private store: Store) {
+  constructor(private builder: FormBuilder, private store: Store, private router:Router) {
 
   }
   ngOnInit(): void {
    localStorage.clear();
+   console.log(localStorage.getItem('userdata'))
   }
 
   loginform = this.builder.group({
@@ -25,8 +27,9 @@ export class LoginComponent implements OnInit {
   })
 
   Proceedlogin() {
+    console.log('login clicked')
     if (this.loginform.valid) {
-      const _obj: Usercred = {
+      const _obj: UserCred = {
         username: this.loginform.value.username as string,
         password: this.loginform.value.password as string
       }
@@ -39,6 +42,8 @@ export class LoginComponent implements OnInit {
   resetlogin() {
     this.loginform.reset();
   }
-
+  navigateToForgotPassword() {
+    this.router.navigate(['forgotpassword']);
+  }
 }
 
